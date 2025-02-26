@@ -8,6 +8,8 @@ This is a **FastAPI-based API** for querying **energy consumption data**, suppor
 - ✅ Filter by date & time range
 - ✅ Asynchronous PostgreSQL queries
 - ✅ Deployable with Docker & Railway
+## Public URL
+     https://energy-production-3537.up.railway.app/
 
 ## 📂 Project Structure
 
