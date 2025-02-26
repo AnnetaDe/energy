@@ -1,0 +1,21 @@
+echo "
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env
+
+# Database & Logs
+*.sqlite3
+*.log
+
+# VSCode settings
+.vscode/
+
+# FastAPI & Uvicorn logs
+*.db
+" > .gitignore
