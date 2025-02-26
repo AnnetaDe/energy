@@ -1,0 +1,91 @@
+# 🚀 FastAPI Energy Consumption API
+
+This is a **FastAPI-based API** for querying **energy consumption data**, supporting **date-based and hourly-based filtering**.
+
+## 📌 Features
+- ✅ Retrieve all energy data
+- ✅ Filter by date range
+- ✅ Filter by date & time range
+- ✅ Asynchronous PostgreSQL queries
+- ✅ Deployable with Docker & Railway
+
+## 📂 Project Structure
+
+│── app/
+│   ├── models.py          # SQLAlchemy models
+│   ├── database.py        # DB initialization
+│   ├── session.py         # DB session handling
+│── main.py                # FastAPI application
+│── requirements.txt       # Python dependencies
+│── Dockerfile             # Docker configuration
+│── docker-compose.yml     # Docker Compose setup
+│── .env                   # Environment variables (not committed)
+│── README.md              # Documentation
+
+### 📦 Directories
+
+- **app**: FastAPI application
+
+## 🎯 API Architecture
+
+
+- **GET /energy**: Retrieve all energy data (no parameters)
+
+- **GET /range_days**: Filter by date range (parameters: start_date, end_date)
+test:
+```bash```
+# curl -X 'GET' "http://127.0.0.1:8000/range?start=2022-02-01&end=2022-02-10"      -H "accept: application/json"
+
+response:
+```json
+[
+  {
+    "date": "2022-02-01",
+    "consommation": 12345
+  }
+]
+```
+
+- **GET /range_hours**: Filter by date & time range (parameters: start_date, end_date, start_hour, end_hour)
+test:
+```bash```
+# curl -X 'GET' "http://127.0.0.1:8000/range_hours?start_date=2022-02-01&start_hour=08:00:00&end_date=2022-02-02&end_hour=12:00:00" \
+#      -H "accept: application/json"
+response:
+```json
+[
+  {
+    "date": "2022-02-01",
+    "heures": "00:00",
+    "consommation": 12345
+  }
+]
+## 🔥 Running the API Locally
+1. **Clone the repository**:
+        git clone 
+        https://github.com/AnnetaDe/energy.git
+2. **Install dependencies**:
+        pip install -r requirements.txt
+3. **Set up the database**:
+        - Create a PostgreSQL database
+        - Set the database URL in the `.env` file
+4. **Set Up Environment Variables**:
+        - Create a `.env` file in the project root
+        - Add the following environment variables:
+            - `DATABASE_URL`: PostgreSQL database URL
+5. **Run the API**:
+             uvicorn main:app --reload
+6. **Access the API**:
+        - Open `http://localhost:8000/docs` in your browser
+
+
+
+## 🚢 Deploying with Docker
+1. **Build the Docker image**:
+        docker build -t energy-api .
+
+
+
+
+
+

@@ -6,8 +6,10 @@ from sqlalchemy import select, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from app.database import init_db
 from app.models import Energy
-
 from app.session import get_session
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 @asynccontextmanager
@@ -23,6 +25,7 @@ async def lifespan(app: FastAPI):
 
 
 origins = ["*"]
+
 app = FastAPI(lifespan=lifespan)
 
 
@@ -44,7 +47,7 @@ async def get_energy(session: AsyncSession = Depends(get_session)):
     return all_entries
 
 
-# $ curl -X 'GET' "http://127.0.0.1:8000/range?start=2022-02-01&end=2022-02-10"      -H "accept: application/json"
+# curl -X 'GET' "http://127.0.0.1:8000/range?start=2022-02-01&end=2022-02-10"      -H "accept: application/json"
 
 
 @app.get("/range_days")
