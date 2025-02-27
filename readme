@@ -14,20 +14,25 @@ This is a **FastAPI-based API** for querying **energy consumption data**, suppor
      https://energy-production-3537.up.railway.app/
 
 ## 📂 Project Structure
-
 │── app/
 │   ├── models.py          # SQLAlchemy models
 │   ├── database.py        # DB initialization
 │   ├── session.py         # DB session handling
 │   ├── schemas.py         # Pydantic schemas
 │   ├── parse_excel.py     # Excel file parsing
-│   ├── seed.py            # seed data
+│   ├── seed.py            # Seed data into DB
 │── main.py                # FastAPI application
 │── requirements.txt       # Python dependencies
 │── Dockerfile             # Docker configuration
 │── docker-compose.yml     # Docker Compose setup
 │── .env                   # Environment variables (not committed)
 │── README.md              # Documentation
+│── tests/                 # API test cases
+│   ├── test_main.py       # Test cases using Pytest
+│── .gitignore             # Git ignore file
+│── .dockerignore          # Docker ignore file
+
+
 
 ### 📦 Directories
 
@@ -91,6 +96,13 @@ response:
 ## 🚢 Deploying with Docker
 1. **Build the Docker image**:
         docker build -t fastapi_app.
+        
+        
+## 🧪 Running API Tests
+
+📌 Test framework: pytest
+📌 Run the test cases using the following command :
+              pytest -v tests/
 
 
 
