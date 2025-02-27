@@ -80,7 +80,7 @@ async def get_energy_in_range(
         return {"error": str(e)}
 
 
-# curl -X 'GET' "http://127.0.0.1:8000/range_hours?start_date=2022-02-01&start_hour=08:00:00&end_date=2022-02-02&end_hour=12:00:00" \
+# curl -X 'GET' "http://127.0.0.1:8000/range?start_date=2022-02-01&start_hour=08:00:00&end_date=2022-02-02&end_hour=12:00:00" \
 #      -H "accept: application/json"
 @app.get("/range")
 async def get_energy_in_range_h(
