@@ -19,6 +19,9 @@ This is a **FastAPI-based API** for querying **energy consumption data**, suppor
 │   ├── models.py          # SQLAlchemy models
 │   ├── database.py        # DB initialization
 │   ├── session.py         # DB session handling
+│   ├── schemas.py         # Pydantic schemas
+│   ├── parse_excel.py     # Excel file parsing
+│   ├── seed.py            # seed data
 │── main.py                # FastAPI application
 │── requirements.txt       # Python dependencies
 │── Dockerfile             # Docker configuration
@@ -86,7 +89,7 @@ response:
 
 ## 🚢 Deploying with Docker
 1. **Build the Docker image**:
-        docker build -t energy-api .
+        docker build -t fastapi_app.
 
 
 
