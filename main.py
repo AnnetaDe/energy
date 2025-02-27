@@ -1,9 +1,10 @@
 from contextlib import asynccontextmanager
 from datetime import datetime, date
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Query
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import select, and_, or_
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy import func, select, and_, or_
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import SQLAlchemyError
 from app.database import init_db
 from app.models import Energy
 from app.session import get_session
@@ -88,6 +89,8 @@ async def get_energy_in_range_h(
     end_date: str,
     start_hour: str = "00:00:00",
     end_hour: str = "23:59:59",
+    limit: int = Query(12, ge=1),
+    offset: int = Query(0, ge=0),
     session: AsyncSession = Depends(get_session),
 ):
     try:
@@ -115,11 +118,32 @@ async def get_energy_in_range_h(
                 )
             )
 
-        results = await session.execute(stmt)
+        total_count = await session.scalar(
+            select(func.count()).select_from(stmt.subquery())
+        )
+        total_pages = 0 if not total_count else (total_count - 1) // limit
+        paginated_stmt = stmt.limit(limit).offset(offset)
+
+        results = await session.execute(paginated_stmt)
         entries = results.scalars().all()
 
         return {
             "count": len(entries),
+            "per_page": limit,
+            "page": offset // limit + 1,
+            "total_pages": total_pages,
+            "offset": offset,
+            "total_items": total_count,
+            # "next": (
+            #     f"/range?limit={limit}&offset={offset + limit}&start_date={start_date}&end_date={end_date}"
+            #     if total_count is not None and offset + limit < total_count
+            #     else None
+            # ),
+            # "prev": (
+            #     f"/range?limit={limit}&offset={max(offset - limit, 0)}&start_date={start_date}&end_date={end_date}"
+            #     if offset > 0
+            #     else None
+            # ),
             "data": [
                 {
                     "date": entry.date,
@@ -130,6 +154,7 @@ async def get_energy_in_range_h(
             ],
             "total": sum(entry.consommation for entry in entries),
         }
-
+    except SQLAlchemyError as e:
+        return {"error": "Database error", "details": str(e)}
     except Exception as e:
-        return {"error": str(e)}
+        return {"error": "Unexpected error", "details": str(e)}
