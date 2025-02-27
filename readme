@@ -53,7 +53,8 @@ response:
 ]
 ```
 
-- **GET /range_hours**: Filter by date & time range (parameters: start_date, end_date, start_hour, end_hour)
+- **GET /range**: Filter by date & time range (parameters: start_date, end_date, start_hour, end_hour) 
+default start_hour=00:00:00, end_hour=23:59:59
 test:
 ```bash```
 # curl -X 'GET' "http://127.0.0.1:8000/range_hours?start_date=2022-02-01&start_hour=08:00:00&end_date=2022-02-02&end_hour=12:00:00" \
