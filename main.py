@@ -121,7 +121,7 @@ async def get_energy_in_range_h(
         total_count = await session.scalar(
             select(func.count()).select_from(stmt.subquery())
         )
-        total_pages = 0 if not total_count else (total_count - 1) // limit
+        total_pages = 0 if not total_count else (limit + total_count - 1) // limit
         paginated_stmt = stmt.limit(limit).offset(offset)
 
         results = await session.execute(paginated_stmt)
