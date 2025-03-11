@@ -2,9 +2,9 @@ import asyncio
 from sqlalchemy import insert, text
 from database import Base
 from session import get_session
-from models import Energy
+from app.insert_to_db.models_db import Energy
 
-from parse_excel import parse_folder
+from app.insert_to_db.parse_excel import parse_folder
 import pandas as pd
 
 

@@ -22,15 +22,15 @@ def parse_folder_2_col(folder_path: str, path_added: str) -> pd.DataFrame:
         df = pd.read_excel(file_path, engine="openpyxl")
         df_selected = df[["Date", "Heures", "Consommation"]]
         df_new_columns = pd.DataFrame()
-        df_new_columns["id"] = pd.to_datetime(
+        df_new_columns["date"] = pd.to_datetime(
             df_selected["Date"].astype(str) + " " + df_selected["Heures"].astype(str),
             errors="coerce",
         )
-        df_new_columns["id"] = (df_new_columns["id"].astype("int64") // 10**6).astype(
-            str
-        )
-        df_new_columns["id"] = pd.to_numeric(
-            df_new_columns["id"], errors="coerce"
+        df_new_columns["date"] = (
+            df_new_columns["date"].astype("int64") // 10**6
+        ).astype(str)
+        df_new_columns["date"] = pd.to_numeric(
+            df_new_columns["date"], errors="coerce"
         ).astype(float)
 
         df_new_columns["consommation"] = pd.to_numeric(

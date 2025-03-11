@@ -1,9 +1,10 @@
 import pytest
 import asyncio
 from fastapi.testclient import TestClient
-from main import app
 
-client = TestClient(app)
+import main
+
+client = TestClient(app=main.app)
 
 
 @pytest.mark.asyncio
@@ -18,13 +19,8 @@ async def test_range_hours():
     assert response.status_code == 200, f"Failed with response: {response.text}"
 
     json_data = response.json()
-
-    assert "count" in json_data, f"Unexpected response: {json_data}"
-    assert "data" in json_data
-    assert "total" in json_data
-
-    if json_data["count"] > 0:
-        sample = json_data["data"][0]
-        assert "date" in sample
-        assert "heures" in sample
-        assert "consommation" in sample
+    assert len(json_data["items"]) > 0, f"No data found for the given range"
+    assert isinstance(json_data["items"][0]["date"], int), f"Date should be an integer"
+    assert isinstance(
+        json_data["items"][0]["consommation"], int
+    ), f"Consommation should be an integer"

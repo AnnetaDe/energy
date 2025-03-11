@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String, Date, Time, Numeric
-from sqlalchemy.orm import mapped_column
+from sqlalchemy import Column, Integer, Date, Time, Numeric
 
-from .database import Base
+from app.database import Base
 
 
 class Energy(Base):
@@ -16,12 +15,15 @@ class Energy(Base):
 class Energy_2(Base):
     __tablename__ = "energy_2"
 
-    id = Column(Numeric, primary_key=True, index=True)
+    date = Column(Numeric, primary_key=True, index=True)
     consommation = Column(Numeric)
 
 
 class Energy_3(Base):
     __tablename__ = "energy_3"
 
-    id = Column(Numeric, primary_key=True, index=True)
+    date = Column(Numeric, primary_key=True, index=True)
     consommation = Column(Numeric)
+
+    def __repr__(self):
+        return f"{self.date}---> {self.consommation}"

@@ -2,14 +2,15 @@ import pandas as pd
 from sqlalchemy import insert
 import asyncio
 
-
 from helpers_db.timer_for_execution import time_it
-from models import Energy_2, Energy_3
+
+
+from insert_to_db.models_db import Energy_2, Energy_3
 from session import get_session
-from parse_excel_2_col import parse_folder_2_col
+from insert_to_db.parse_excel_2_col import parse_folder_2_col
 
 
-REQUIRED_COLUMNS_NEW: set[str] = {"id", "consommation"}
+REQUIRED_COLUMNS_NEW: set[str] = {"date", "consommation"}
 df = parse_folder_2_col(r"data_from_web", r"data_added")
 
 
@@ -39,7 +40,7 @@ async def row_insert(df):
     async for session in get_session():
         for i in range(0, len(df)):
             stmt = insert(Energy_2).values(
-                id=df.iloc[i]["id"], consommation=df.iloc[i]["consommation"]
+                date=df.iloc[i]["date"], consommation=df.iloc[i]["consommation"]
             )
             await session.execute(stmt)
             await session.commit()
@@ -58,7 +59,7 @@ async def bulk_insert(df, batch_size=1000):
         BATCH_SIZE = 1000
         entries = [
             {
-                "id": row["id"],
+                "date": row["date"],
                 "consommation": row["consommation"],
             }
             for _, row in df.iterrows()
@@ -114,3 +115,25 @@ def run_insertion_method(method_name: str, df: pd.DataFrame):
 # run_insertion_method("row_insertion", df)
 # ✅ Inserted row 17520 (17520 rows)
 # ⏱️ Time taken: 1536.55 seconds
+
+
+# ✅ Moved 2022.xlsx to data_added\2022.xlsx
+# ✅ Inserted batch 1 (1000 rows)
+# ✅ Inserted batch 2 (1000 rows)
+# ✅ Inserted batch 3 (1000 rows)
+# ✅ Inserted batch 4 (1000 rows)
+# ✅ Inserted batch 5 (1000 rows)
+# ✅ Inserted batch 6 (1000 rows)
+# ✅ Inserted batch 7 (1000 rows)
+# ✅ Inserted batch 8 (1000 rows)
+# ✅ Inserted batch 9 (1000 rows)
+# ✅ Inserted batch 10 (1000 rows)
+# ✅ Inserted batch 11 (1000 rows)
+# ✅ Inserted batch 12 (1000 rows)
+# ✅ Inserted batch 13 (1000 rows)
+# ✅ Inserted batch 14 (1000 rows)
+# ✅ Inserted batch 15 (1000 rows)
+# ✅ Inserted batch 16 (1000 rows)
+# ✅ Inserted batch 17 (1000 rows)
+# ✅ Inserted batch 18 (520 rows)
+# ⏱️ Time taken: 3.94 seconds

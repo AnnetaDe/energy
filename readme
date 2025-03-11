@@ -95,14 +95,14 @@ response:
 
 ## 🚢 Deploying with Docker
 1. **Build the Docker image**:
-        docker build -t fastapi_app.
+        docker build -t fastapi_app .
         
         
 ## 🧪 Running API Tests
 
 📌 Test framework: pytest
 📌 Run the test cases using the following command :
-              pytest -v tests/
+              pytest -v test_main.py
 
 
 
