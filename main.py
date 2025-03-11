@@ -29,7 +29,7 @@ async def lifespan(app: FastAPI):
         print("🚀 Database initialized.")
         yield
     finally:
-        print("🛑 Closing database connection.")
+        print("🛑 Closing database connection!!!")
         await app.state.db_engine.dispose()
         print("👋 Database connection closed!")
 
